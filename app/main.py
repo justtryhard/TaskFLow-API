@@ -4,9 +4,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
 from app.db.session import get_db
+from app.api.auth import router as auth_router
 
 app = FastAPI(title=settings.APP_NAME)
 
+app.include_router(auth_router)
 
 @app.get("/health")
 async def health_check():
