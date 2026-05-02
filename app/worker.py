@@ -17,14 +17,19 @@ async def process_message(message: aio_pika.IncomingMessage):
 
 
 async def main():
+    print("Worker is starting", flush=True)
+
     connection = await get_rabbit_connection()
+    print("Connected in worker", flush=True)
 
     channel = await connection.channel()
+
     queue = await channel.declare_queue("user_events", durable=True)
 
     await queue.consume(process_message)
 
-    print("🚀 Worker запущен")
+    print("Worker started", flush=True)
+
     await asyncio.Future()
 
 
