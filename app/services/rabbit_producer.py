@@ -18,7 +18,13 @@ async def publish_user_registered(email: str):
             delivery_mode=aio_pika.DeliveryMode.PERSISTENT,
         )
 
-        await channel.default_exchange.publish(
+        exchange = await channel.declare_exchange(
+            "user_exchange",
+            aio_pika.ExchangeType.DIRECT,
+            durable=True,
+        )
+
+        await exchange.publish(
             message,
-            routing_key=queue.name,
+            routing_key="user_events",
         )

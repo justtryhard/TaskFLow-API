@@ -10,10 +10,10 @@ async def process_message(message: aio_pika.IncomingMessage):
     async with message.process():
         data = json.loads(message.body.decode())
 
-        print(f"📩 Получено сообщение: {data}")
+        print(f"Got message: {data}", flush=True)
 
         if data["event"] == "user_registered":
-            print(f"👤 Новый пользователь: {data['email']}")
+            print(f"New user: {data['email']}", flush=True)
 
 
 async def main():
@@ -24,7 +24,21 @@ async def main():
 
     channel = await connection.channel()
 
-    queue = await channel.declare_queue("user_events", durable=True)
+    exchange = await channel.declare_exchange(
+        "user_exchange",
+        aio_pika.ExchangeType.DIRECT,
+        durable=True,
+    )
+
+    queue = await channel.declare_queue(
+        "user_events",
+        durable=True,
+    )
+
+    await queue.bind(
+        exchange,
+        routing_key="user_events",
+    )
 
     await queue.consume(process_message)
 
