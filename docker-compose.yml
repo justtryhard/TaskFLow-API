@@ -38,5 +38,15 @@ services:
       - "5673:5672"
       - "15673:15672"
 
+  worker:
+    build: .
+    container_name: taskflow_worker
+    command: python -m app.worker
+    env_file:
+      - .env
+    depends_on:
+      - rabbitmq
+      - postgres
+
 volumes:
   postgres_data:

@@ -8,6 +8,8 @@ from app.models.user import User
 from app.repositories.user_repository import UserRepository
 from app.schemas.user import Token, UserCreate, UserLogin, UserRead
 from app.services.user_service import UserService
+from app.services.rabbit_producer import publish_user_registered
+
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -22,6 +24,7 @@ async def register(
     try:
         user = await service.create_user(data.email, data.password)
         await db.commit()
+        await publish_user_registered(user.email)
         return user
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
