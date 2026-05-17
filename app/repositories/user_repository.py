@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.user import User
-from app.core.redis import redis_client
+from app.core.redis import get_redis
 
 class UserRepository:
     def __init__(self, db: AsyncSession):
@@ -14,6 +14,7 @@ class UserRepository:
         cache_key = f"user:{email}"
 
         # 1. пробуем из Redis
+        redis_client = get_redis()
         cached = await redis_client.get(cache_key)
         if cached:
             data = json.loads(cached)

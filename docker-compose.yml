@@ -12,6 +12,8 @@ services:
       - postgres
       - redis
       - rabbitmq
+    environment:
+      - PYTHONPATH=/app
 
   postgres:
     image: postgres:16
