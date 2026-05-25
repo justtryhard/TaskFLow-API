@@ -1,5 +1,4 @@
-from pydantic_settings import BaseSettings
-
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     APP_NAME: str
@@ -23,6 +22,8 @@ class Settings(BaseSettings):
     ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int
 
+    model_config = SettingsConfigDict(env_file=".env")
+
     @property
     def database_url(self) -> str:
         return (
@@ -35,8 +36,7 @@ class Settings(BaseSettings):
     def REDIS_URL(self) -> str:
         return f"redis://{self.REDIS_HOST}:{self.REDIS_PORT}/0"
 
-    class Config:
-        env_file = ".env"
+
 
 
 settings = Settings()
