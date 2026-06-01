@@ -59,7 +59,7 @@ FastAPI
 ### Клонирование
 
 ```bash
-git clone https://github.com/your_username/taskflow-api.git
+git https://github.com/justtryhard/TaskFLow-API
 
 cd taskflow-api
 ```
