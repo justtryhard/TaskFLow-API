@@ -1,6 +1,6 @@
 # TaskFlow API
 
-TaskFlow API — backend-сервис для управления задачами, построенный на FastAPI с использованием PostgreSQL, Redis и RabbitMQ.
+TaskFlow API - backend-сервис для управления задачами, построенный на FastAPI с использованием PostgreSQL, Redis и RabbitMQ.
 
 ## Возможности
 
